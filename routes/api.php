@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ContactsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/contacts', [ContactsController::class, 'index']);
+Route::prefix('/contact')->group( function () {
+        Route::post('/store', [ContactsController::class, 'store']);
+        Route::put('/{id}', [ContactsController::class, 'update']);
+        Route::delete('/{id}', [ContactsController::class, 'destroy']);
+    }
+);
