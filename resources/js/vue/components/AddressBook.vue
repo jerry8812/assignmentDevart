@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <table class="w-3/5 ml-20 shadow-lg divide-y divide-gray-200 border-gray-300 border-1">
+  <div class="mx-20">
+    <table class="w-full shadow-lg divide-y divide-gray-200 border-gray-300 border-1">
       <thead class="bg-gray-50">
         <tr>
           <th scope="col" class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
@@ -21,22 +21,8 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
-        <tr v-for="contact in contacts" :key="contact.id" class="even:bg-gray-100">
-          <td class="pl-6 py-5 whitespace-nowrap text-md text-gray-700 tracking-wide">
-            <div>{{contact.name}}</div>
-          </td>
-          <td class="pl-6 py-5 whitespace-nowrap text-md text-gray-700 tracking-wide">
-            <div>{{contact.email}}</div>
-          </td>
-          <td class="pl-6 py-5 whitespace-nowrap text-md text-gray-700 tracking-wide">
-            <div>{{contact.phoneNumber}}</div>
-          </td>
-          <td class="pl-6 py-5 whitespace-nowrap text-md text-gray-700 tracking-wide">
-            <div>{{contact.physicalAddress}}</div>
-          </td>
-          <td class="pl-6 py-5 whitespace-nowrap text-md text-gray-700 tracking-wide">
-            <div>Action</div>
-          </td>
+        <tr v-for="contact in contacts" :key="contact.id" class="even:bg-gray-100 hover:bg-teal-50">
+          <contact :contact="contact"></contact>
         </tr>
       </tbody>
     </table>
@@ -44,15 +30,19 @@
 </template>
 
 <script>
+import Contact from './Contact.vue'
 export default {
   name: "AddressBook",
-  props: {
-    contacts: {
-      type: Array,
-      default() {
-        return []
-      }
+  components: {
+    Contact
+  },
+  computed: {
+    contacts() {
+      return this.$store.state.contacts
     }
+  },
+  mounted() {
+    this.$store.dispatch('getAllContacts')
   }
 };
 </script>

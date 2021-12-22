@@ -1,12 +1,11 @@
 <template>
-  <div class="font-sans">
+  <div class="font-extrabold">
     <top-bar></top-bar>
-    <address-book :contacts="contacts"></address-book>
+    <address-book></address-book>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 import TopBar from './components/TopBar.vue'
 import AddressBook from './components/AddressBook.vue'
 
@@ -22,18 +21,7 @@ export default {
     }
   },
   methods: {
-    getContacts () {
-      axios.get('api/contacts')
-      .then(response => {
-        this.contacts = response.data
-      })
-      .catch (error => {
-        console.log(error)
-      })
-    }
-  },
-  created() {
-    this.getContacts()
+    
   }
 }
 </script>
