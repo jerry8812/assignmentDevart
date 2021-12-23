@@ -2081,13 +2081,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     TopBar: _components_TopBar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     AddressBook: _components_AddressBook_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  data: function data() {
-    return {
-      contacts: []
-    };
-  },
-  methods: {}
+  }
 });
 
 /***/ }),
@@ -2205,6 +2199,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Object,
       "default": {}
     }
+  },
+  methods: {
+    deleteContact: function deleteContact() {
+      this.$store.dispatch('removeContact', this.contact);
+    }
   }
 });
 
@@ -2303,7 +2302,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getAllContacts": () => (/* binding */ getAllContacts)
+/* harmony export */   "getAllContacts": () => (/* binding */ getAllContacts),
+/* harmony export */   "removeContact": () => (/* binding */ removeContact)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -2312,6 +2312,16 @@ var getAllContacts = function getAllContacts(_ref) {
   var commit = _ref.commit;
   axios__WEBPACK_IMPORTED_MODULE_0___default().get('api/contacts').then(function (response) {
     commit('SET_CONTACTS', response.data);
+  })["catch"](function (error) {
+    console.log(error);
+  });
+};
+var removeContact = function removeContact(_ref2, contact) {
+  var commit = _ref2.commit;
+  axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("api/contact/".concat(contact.id)).then(function (response) {
+    if (response.status == 200) {
+      commit('DELETE_CONTACT', contact);
+    }
   })["catch"](function (error) {
     console.log(error);
   });
@@ -2358,10 +2368,16 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SET_CONTACTS": () => (/* binding */ SET_CONTACTS)
+/* harmony export */   "SET_CONTACTS": () => (/* binding */ SET_CONTACTS),
+/* harmony export */   "DELETE_CONTACT": () => (/* binding */ DELETE_CONTACT)
 /* harmony export */ });
 var SET_CONTACTS = function SET_CONTACTS(state, contacts) {
-  state.contacts = contacts;
+  return state.contacts = contacts;
+};
+var DELETE_CONTACT = function DELETE_CONTACT(state, contact) {
+  state.contacts = state.contacts.filter(function (t) {
+    return t.id !== contact.id;
+  });
 };
 
 /***/ }),
@@ -20336,7 +20352,7 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _c("div", [
+        _c("div", { on: { click: _vm.deleteContact } }, [
           _c(
             "svg",
             {

@@ -9,3 +9,15 @@ export const getAllContacts = ({ commit }) => {
     console.log(error)
   })
 }
+
+export const removeContact = ({ commit }, contact) => {
+  axios.delete(`api/contact/${contact.id}`).
+  then( response => {
+    if(response.status == 200) {
+      commit('DELETE_CONTACT', contact)
+    }
+  })
+  .catch (error => {
+    console.log(error)
+  })
+}

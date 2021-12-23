@@ -14,14 +14,6 @@ export default {
   components: {
     TopBar,
     AddressBook
-  },
-  data: function () {
-    return {
-      contacts:[]
-    }
-  },
-  methods: {
-    
   }
 }
 </script>
