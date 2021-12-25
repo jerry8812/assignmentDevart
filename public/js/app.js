@@ -2067,6 +2067,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _components_TopBar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/TopBar.vue */ "./resources/js/vue/components/TopBar.vue");
 /* harmony import */ var _components_AddressBook_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/AddressBook.vue */ "./resources/js/vue/components/AddressBook.vue");
+/* harmony import */ var _components_ContactDetail_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ContactDetail.vue */ "./resources/js/vue/components/ContactDetail.vue");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2074,14 +2077,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
-  components: {
+  components: _defineProperty({
     TopBar: _components_TopBar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    AddressBook: _components_AddressBook_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
-  }
+    AddressBook: _components_AddressBook_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ContactDetail: _components_ContactDetail_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }, "ContactDetail", _components_ContactDetail_vue__WEBPACK_IMPORTED_MODULE_2__["default"])
 });
 
 /***/ }),
@@ -2209,6 +2215,50 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/ContactDetail.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/ContactDetail.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "ContactDetail",
+  computed: {
+    toggleEdit: function toggleEdit() {
+      return this.$store.state.toggleEdit;
+    }
+  },
+  methods: {
+    closeEdit: function closeEdit() {
+      this.$store.commit('SET_TOGGLE_EDIT', false);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/TopBar.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/TopBar.vue?vue&type=script&lang=js& ***!
@@ -2230,8 +2280,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "TopBar"
+  name: "TopBar",
+  methods: {
+    openEdit: function openEdit() {
+      this.$store.commit('SET_TOGGLE_EDIT', true);
+    }
+  }
 });
 
 /***/ }),
@@ -2369,7 +2427,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "SET_CONTACTS": () => (/* binding */ SET_CONTACTS),
-/* harmony export */   "DELETE_CONTACT": () => (/* binding */ DELETE_CONTACT)
+/* harmony export */   "DELETE_CONTACT": () => (/* binding */ DELETE_CONTACT),
+/* harmony export */   "SET_TOGGLE_EDIT": () => (/* binding */ SET_TOGGLE_EDIT)
 /* harmony export */ });
 var SET_CONTACTS = function SET_CONTACTS(state, contacts) {
   return state.contacts = contacts;
@@ -2378,6 +2437,9 @@ var DELETE_CONTACT = function DELETE_CONTACT(state, contact) {
   state.contacts = state.contacts.filter(function (t) {
     return t.id !== contact.id;
   });
+};
+var SET_TOGGLE_EDIT = function SET_TOGGLE_EDIT(state, payload) {
+  return state.toggleEdit = payload;
 };
 
 /***/ }),
@@ -2394,7 +2456,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  contacts: []
+  contacts: [],
+  toggleEdit: false
 });
 
 /***/ }),
@@ -19954,6 +20017,45 @@ component.options.__file = "resources/js/vue/components/Contact.vue"
 
 /***/ }),
 
+/***/ "./resources/js/vue/components/ContactDetail.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/vue/components/ContactDetail.vue ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ContactDetail_vue_vue_type_template_id_57c7389f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContactDetail.vue?vue&type=template&id=57c7389f& */ "./resources/js/vue/components/ContactDetail.vue?vue&type=template&id=57c7389f&");
+/* harmony import */ var _ContactDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContactDetail.vue?vue&type=script&lang=js& */ "./resources/js/vue/components/ContactDetail.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ContactDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ContactDetail_vue_vue_type_template_id_57c7389f___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ContactDetail_vue_vue_type_template_id_57c7389f___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/vue/components/ContactDetail.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/vue/components/TopBar.vue":
 /*!************************************************!*\
   !*** ./resources/js/vue/components/TopBar.vue ***!
@@ -20041,6 +20143,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/vue/components/ContactDetail.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/vue/components/ContactDetail.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContactDetail.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/ContactDetail.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/vue/components/TopBar.vue?vue&type=script&lang=js&":
 /*!*************************************************************************!*\
   !*** ./resources/js/vue/components/TopBar.vue?vue&type=script&lang=js& ***!
@@ -20108,6 +20226,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/vue/components/ContactDetail.vue?vue&type=template&id=57c7389f&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/vue/components/ContactDetail.vue?vue&type=template&id=57c7389f& ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactDetail_vue_vue_type_template_id_57c7389f___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactDetail_vue_vue_type_template_id_57c7389f___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactDetail_vue_vue_type_template_id_57c7389f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContactDetail.vue?vue&type=template&id=57c7389f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/ContactDetail.vue?vue&type=template&id=57c7389f&");
+
+
+/***/ }),
+
 /***/ "./resources/js/vue/components/TopBar.vue?vue&type=template&id=64920ce0&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/vue/components/TopBar.vue?vue&type=template&id=64920ce0& ***!
@@ -20143,8 +20278,14 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "font-extrabold" },
-    [_c("top-bar"), _vm._v(" "), _c("address-book")],
+    { staticClass: "font-semibold relative" },
+    [
+      _c("top-bar"),
+      _vm._v(" "),
+      _c("address-book"),
+      _vm._v(" "),
+      _c("contact-detail"),
+    ],
     1
   )
 }
@@ -20387,6 +20528,78 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/ContactDetail.vue?vue&type=template&id=57c7389f&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/ContactDetail.vue?vue&type=template&id=57c7389f& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.toggleEdit
+    ? _c("div", [
+        _c("div", {
+          staticClass:
+            "fixed left-0 top-0 w-full h-full bg-black opacity-25 z-30",
+        }),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              " fixed w-2/5 h-1/2 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 shadow-3xl rounded overflow-hidden bg-white z-50",
+            class: _vm.toggleEdit
+              ? "animate-fade-in-down"
+              : "animate-fade-out-up",
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex justify-end items-center text-white uppercase",
+              },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "w-20 h-10 rounded bg-teal-400 tracking-wider",
+                    on: { click: _vm.closeEdit },
+                  },
+                  [_vm._v("SUBMIT\r\n      ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "w-20 h-10 mx-5 rounded bg-teal-400 tracking-wider",
+                    on: { click: _vm.closeEdit },
+                  },
+                  [_vm._v("CLOSE\r\n      ")]
+                ),
+              ]
+            ),
+          ]
+        ),
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/TopBar.vue?vue&type=template&id=64920ce0&":
 /*!**********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vue/components/TopBar.vue?vue&type=template&id=64920ce0& ***!
@@ -20403,34 +20616,28 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    {
+      staticClass:
+        "flex justify-between px-24 mb-9 \n            border-solid border-b-2 border-b-gray-300",
+    },
+    [
+      _c("h1", { staticClass: "text-3xl py-8" }, [_vm._v("Address Book")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "px-3 h-9 self-center uppercase\n    border-solid border-1 rounded-xl bg-teal-400 \n  text-white tracking-wider hover:bg-teal-300",
+          on: { click: _vm.openEdit },
+        },
+        [_vm._v("\n    Create a new contact\n  ")]
+      ),
+    ]
+  )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "flex justify-between px-24 mb-9 \n            border-solid border-b-2 border-b-gray-300",
-      },
-      [
-        _c("h1", { staticClass: "text-3xl py-8" }, [_vm._v("Address Book")]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass:
-              "px-3 h-9 self-center\n   border-solid border-1 rounded-xl bg-teal-400 \n   text-white tracking-wider hover:shadow-md",
-          },
-          [_vm._v("Create a new contact")]
-        ),
-      ]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
