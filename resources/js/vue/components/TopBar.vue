@@ -16,6 +16,7 @@ export default {
   name: "TopBar",
   methods: {
     openEdit() {
+      this.$store.commit('SET_MODAL_TYPE', 'create')
       this.$store.commit('SET_TOGGLE_EDIT', true)
     }
   }

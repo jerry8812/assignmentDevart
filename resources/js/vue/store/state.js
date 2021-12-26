@@ -1,4 +1,6 @@
 export default {
   contacts: [],
-  toggleEdit: false
+  toggleEdit: false,
+  typeOfModal: 'edit',
+  selectedContact: {}
 }

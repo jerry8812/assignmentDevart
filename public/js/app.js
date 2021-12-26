@@ -2143,7 +2143,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     contacts: function contacts() {
-      return this.$store.state.contacts;
+      return this.$store.getters.contacts;
     }
   },
   mounted: function mounted() {
@@ -2209,6 +2209,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     deleteContact: function deleteContact() {
       this.$store.dispatch('removeContact', this.contact);
+    },
+    openModal: function openModal() {
+      this.$store.commit('SET_SELECTED_CONTACT', this.contact);
+      this.$store.commit('SET_MODAL_TYPE', 'edit');
+      this.$store.commit('SET_TOGGLE_EDIT', true);
     }
   }
 });
@@ -2243,15 +2248,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContactDetail",
   computed: {
     toggleEdit: function toggleEdit() {
-      return this.$store.state.toggleEdit;
+      return this.$store.getters.toggleEdit;
+    },
+    typeOfModal: function typeOfModal() {
+      return this.$store.getters.typeOfModal;
+    },
+    contact: function contact() {
+      if (this.typeOfModal === 'edit') {
+        return this.$store.getters.selectedContact;
+      } else {
+        return {
+          name: '',
+          email: '',
+          phoneNumber: '',
+          physicalAddress: ''
+        };
+      }
     }
   },
   methods: {
-    closeEdit: function closeEdit() {
+    closeModal: function closeModal() {
       this.$store.commit('SET_TOGGLE_EDIT', false);
     }
   }
@@ -2287,6 +2335,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "TopBar",
   methods: {
     openEdit: function openEdit() {
+      this.$store.commit('SET_MODAL_TYPE', 'create');
       this.$store.commit('SET_TOGGLE_EDIT', true);
     }
   }
@@ -2387,6 +2436,35 @@ var removeContact = function removeContact(_ref2, contact) {
 
 /***/ }),
 
+/***/ "./resources/js/vue/store/getter.js":
+/*!******************************************!*\
+  !*** ./resources/js/vue/store/getter.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "contacts": () => (/* binding */ contacts),
+/* harmony export */   "toggleEdit": () => (/* binding */ toggleEdit),
+/* harmony export */   "typeOfModal": () => (/* binding */ typeOfModal),
+/* harmony export */   "selectedContact": () => (/* binding */ selectedContact)
+/* harmony export */ });
+var contacts = function contacts(state) {
+  return state.contacts;
+};
+var toggleEdit = function toggleEdit(state) {
+  return state.toggleEdit;
+};
+var typeOfModal = function typeOfModal(state) {
+  return state.typeOfModal;
+};
+var selectedContact = function selectedContact(state) {
+  return state.selectedContact;
+};
+
+/***/ }),
+
 /***/ "./resources/js/vue/store/index.js":
 /*!*****************************************!*\
   !*** ./resources/js/vue/store/index.js ***!
@@ -2403,16 +2481,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./state */ "./resources/js/vue/store/state.js");
 /* harmony import */ var _action__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./action */ "./resources/js/vue/store/action.js");
 /* harmony import */ var _mutation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mutation */ "./resources/js/vue/store/mutation.js");
+/* harmony import */ var _getter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getter */ "./resources/js/vue/store/getter.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   actions: _action__WEBPACK_IMPORTED_MODULE_3__,
-  mutations: _mutation__WEBPACK_IMPORTED_MODULE_4__
+  mutations: _mutation__WEBPACK_IMPORTED_MODULE_4__,
+  getters: _getter__WEBPACK_IMPORTED_MODULE_5__
 }));
 
 /***/ }),
@@ -2428,7 +2509,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "SET_CONTACTS": () => (/* binding */ SET_CONTACTS),
 /* harmony export */   "DELETE_CONTACT": () => (/* binding */ DELETE_CONTACT),
-/* harmony export */   "SET_TOGGLE_EDIT": () => (/* binding */ SET_TOGGLE_EDIT)
+/* harmony export */   "SET_TOGGLE_EDIT": () => (/* binding */ SET_TOGGLE_EDIT),
+/* harmony export */   "SET_MODAL_TYPE": () => (/* binding */ SET_MODAL_TYPE),
+/* harmony export */   "SET_SELECTED_CONTACT": () => (/* binding */ SET_SELECTED_CONTACT)
 /* harmony export */ });
 var SET_CONTACTS = function SET_CONTACTS(state, contacts) {
   return state.contacts = contacts;
@@ -2440,6 +2523,12 @@ var DELETE_CONTACT = function DELETE_CONTACT(state, contact) {
 };
 var SET_TOGGLE_EDIT = function SET_TOGGLE_EDIT(state, payload) {
   return state.toggleEdit = payload;
+};
+var SET_MODAL_TYPE = function SET_MODAL_TYPE(state, payload) {
+  return state.typeOfModal = payload;
+};
+var SET_SELECTED_CONTACT = function SET_SELECTED_CONTACT(state, payload) {
+  return state.selectedContact = payload;
 };
 
 /***/ }),
@@ -2457,7 +2546,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   contacts: [],
-  toggleEdit: false
+  toggleEdit: false,
+  typeOfModal: 'edit',
+  selectedContact: {}
 });
 
 /***/ }),
@@ -20468,7 +20559,7 @@ var render = function () {
           "flex pl-5 py-4 whitespace-nowrap text-md text-gray-500 tracking-wide",
       },
       [
-        _c("div", [
+        _c("div", { on: { click: _vm.openModal } }, [
           _c(
             "svg",
             {
@@ -20555,36 +20646,256 @@ var render = function () {
           "div",
           {
             staticClass:
-              " fixed w-2/5 h-1/2 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 shadow-3xl rounded overflow-hidden bg-white z-50",
+              " fixed w-1/3 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 shadow-3xl rounded overflow-hidden bg-gray-50 z-50",
             class: _vm.toggleEdit
               ? "animate-fade-in-down"
               : "animate-fade-out-up",
           },
           [
             _c(
-              "div",
+              "h1",
               {
                 staticClass:
-                  "flex justify-end items-center text-white uppercase",
+                  "my-3 capitalize text-center tracking-wider text-xl",
               },
               [
-                _c(
-                  "button",
-                  {
-                    staticClass: "w-20 h-10 rounded bg-teal-400 tracking-wider",
-                    on: { click: _vm.closeEdit },
-                  },
-                  [_vm._v("SUBMIT\r\n      ")]
+                _vm._v(
+                  _vm._s(
+                    _vm.typeOfModal === "edit"
+                      ? "edit contact"
+                      : "create a new contact"
+                  )
                 ),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                staticClass: "m-6 space-y-5 font-normal",
+                attrs: { action: "#" },
+              },
+              [
+                _c("div", [
+                  _c(
+                    "label",
+                    { staticClass: "mb-1 block", attrs: { for: "fullName" } },
+                    [_vm._v("Full Name")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.trim",
+                        value: _vm.contact.name,
+                        expression: "contact.name",
+                        modifiers: { trim: true },
+                      },
+                    ],
+                    staticClass:
+                      "appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
+                    attrs: {
+                      id: "fullName",
+                      name: "fullName",
+                      type: "text",
+                      required: "",
+                    },
+                    domProps: { value: _vm.contact.name },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.contact,
+                          "name",
+                          $event.target.value.trim()
+                        )
+                      },
+                      blur: function ($event) {
+                        return _vm.$forceUpdate()
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "mb-1 block",
+                      attrs: { for: "phoneNumber" },
+                    },
+                    [_vm._v("Phone Number")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.trim",
+                        value: _vm.contact.phoneNumber,
+                        expression: "contact.phoneNumber",
+                        modifiers: { trim: true },
+                      },
+                    ],
+                    staticClass:
+                      "appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
+                    attrs: {
+                      id: "phoneNumber",
+                      name: "phoneNumber",
+                      type: "text",
+                      required: "",
+                    },
+                    domProps: { value: _vm.contact.phoneNumber },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.contact,
+                          "phoneNumber",
+                          $event.target.value.trim()
+                        )
+                      },
+                      blur: function ($event) {
+                        return _vm.$forceUpdate()
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "mb-1 block",
+                      attrs: { for: "email-address" },
+                    },
+                    [_vm._v("Email Address")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.trim",
+                        value: _vm.contact.email,
+                        expression: "contact.email",
+                        modifiers: { trim: true },
+                      },
+                    ],
+                    staticClass:
+                      "appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
+                    attrs: {
+                      id: "email-address",
+                      name: "email",
+                      type: "email",
+                      autocomplete: "email",
+                      required: "",
+                      placeholder: "Email address",
+                    },
+                    domProps: { value: _vm.contact.email },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.contact,
+                          "email",
+                          $event.target.value.trim()
+                        )
+                      },
+                      blur: function ($event) {
+                        return _vm.$forceUpdate()
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "mb-1 block",
+                      attrs: { for: "physicalAddress" },
+                    },
+                    [_vm._v("Physical Address")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.trim",
+                        value: _vm.contact.physicalAddress,
+                        expression: "contact.physicalAddress",
+                        modifiers: { trim: true },
+                      },
+                    ],
+                    staticClass:
+                      "appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
+                    attrs: {
+                      id: "physicalAddress",
+                      name: "physicalAddress",
+                      type: "text",
+                      required: "",
+                      placeholder: "Physical address",
+                    },
+                    domProps: { value: _vm.contact.physicalAddress },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.contact,
+                          "physicalAddress",
+                          $event.target.value.trim()
+                        )
+                      },
+                      blur: function ($event) {
+                        return _vm.$forceUpdate()
+                      },
+                    },
+                  }),
+                ]),
                 _vm._v(" "),
                 _c(
-                  "button",
+                  "div",
                   {
                     staticClass:
-                      "w-20 h-10 mx-5 rounded bg-teal-400 tracking-wider",
-                    on: { click: _vm.closeEdit },
+                      "flex justify-center items-center text-white uppercase mb-6 mt-4",
                   },
-                  [_vm._v("CLOSE\r\n      ")]
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "w-20 h-10 rounded bg-teal-400 tracking-wider hover:bg-teal-300",
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.closeEdit.apply(null, arguments)
+                          },
+                        },
+                      },
+                      [_vm._v("SUBMIT\r\n        ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "w-20 h-10 mx-5 rounded bg-teal-400 tracking-wider hover:bg-teal-300",
+                        on: { click: _vm.closeModal },
+                      },
+                      [_vm._v("CLOSE\r\n        ")]
+                    ),
+                  ]
                 ),
               ]
             ),

@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     contacts() {
-      return this.$store.state.contacts
+      return this.$store.getters.contacts
     }
   },
   mounted() {
