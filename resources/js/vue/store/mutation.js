@@ -1,5 +1,6 @@
 export const SET_CONTACTS = (state, contacts) => state.contacts = contacts
 
+export const NEW_CONTACT = (state, contact) => state.contacts.unshift(contact)
 
 export const DELETE_CONTACT = (state, contact) => {
   state.contacts = state.contacts.filter(t => t.id !== contact.id)
