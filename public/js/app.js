@@ -2301,12 +2301,6 @@ __webpack_require__.r(__webpack_exports__);
   name: "ContactDetail",
   data: function data() {
     return {
-      contact: {
-        name: '',
-        email: '',
-        phoneNumber: '',
-        physicalAddress: ''
-      },
       errors: {}
     };
   },
@@ -2316,34 +2310,52 @@ __webpack_require__.r(__webpack_exports__);
     },
     typeOfModal: function typeOfModal() {
       return this.$store.getters.typeOfModal;
-    }
-  },
-  mounted: function mounted() {
-    if (this.typeOfModal == 'edit') {// console.log(this.$store.getters.selectedContact);
-      // console.log(this.$store.getters.toggleEdit);
-      // this.contact = JSON.parse(JSON.stringify(this.$store.getters.selectedContact));
-      // console.log(this.contact);
+    },
+    contact: {
+      get: function get() {
+        return this.$store.getters.selectedContact;
+      },
+      set: function set(newContact) {
+        return newContact;
+      }
     }
   },
   methods: {
     closeModal: function closeModal() {
       this.$store.commit('SET_TOGGLE_EDIT', false);
+      this.$store.commit('SET_SELECTED_CONTACT', {
+        id: '',
+        name: '',
+        email: '',
+        phoneNumber: '',
+        physicalAddress: ''
+      });
+      this.errors = {};
     },
     submit: function submit() {
       var _this = this;
 
-      if (this.typeOfModal == 'edit') {} else {
-        axios.post('api/contact/store', this.contact).then(function (response) {
-          if (response.status == 201) {
-            _this.$store.commit('NEW_CONTACT', _this.contact);
+      if (this.typeOfModal === 'edit') {
+        axios.put("api/contact/".concat(this.contact.id), this.contact).then(function (response) {
+          if (response.status === 200) {
+            _this.$store.commit('UPDATE_CONTACT', response.data);
 
-            _this.$store.commit('SET_TOGGLE_EDIT', false);
-
-            _this.contact = {};
+            _this.closeModal();
           }
         })["catch"](function (error) {
           if (error.response.status == 422) {
-            console.log(error.response.data.errors);
+            _this.errors = error.response.data.errors;
+          }
+        });
+      } else if (this.typeOfModal === 'create') {
+        axios.post('api/contact/store', this.contact).then(function (response) {
+          if (response.status == 201) {
+            _this.$store.commit('NEW_CONTACT', response.data);
+
+            _this.closeModal();
+          }
+        })["catch"](function (error) {
+          if (error.response.status == 422) {
             _this.errors = error.response.data.errors;
           }
         });
@@ -2384,6 +2396,13 @@ __webpack_require__.r(__webpack_exports__);
     openEdit: function openEdit() {
       this.$store.commit('SET_MODAL_TYPE', 'create');
       this.$store.commit('SET_TOGGLE_EDIT', true);
+      this.$store.commit('SET_SELECTED_CONTACT', {
+        id: '',
+        name: '',
+        email: '',
+        phoneNumber: '',
+        physicalAddress: ''
+      });
     }
   }
 });
@@ -2531,7 +2550,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DELETE_CONTACT": () => (/* binding */ DELETE_CONTACT),
 /* harmony export */   "SET_TOGGLE_EDIT": () => (/* binding */ SET_TOGGLE_EDIT),
 /* harmony export */   "SET_MODAL_TYPE": () => (/* binding */ SET_MODAL_TYPE),
-/* harmony export */   "SET_SELECTED_CONTACT": () => (/* binding */ SET_SELECTED_CONTACT)
+/* harmony export */   "SET_SELECTED_CONTACT": () => (/* binding */ SET_SELECTED_CONTACT),
+/* harmony export */   "UPDATE_CONTACT": () => (/* binding */ UPDATE_CONTACT)
 /* harmony export */ });
 var SET_CONTACTS = function SET_CONTACTS(state, contacts) {
   return state.contacts = contacts;
@@ -2551,7 +2571,16 @@ var SET_MODAL_TYPE = function SET_MODAL_TYPE(state, payload) {
   return state.typeOfModal = payload;
 };
 var SET_SELECTED_CONTACT = function SET_SELECTED_CONTACT(state, payload) {
-  return state.selectedContact = payload;
+  return state.selectedContact = Object.assign({}, payload);
+};
+var UPDATE_CONTACT = function UPDATE_CONTACT(state, updatedContact) {
+  var index = state.contacts.findIndex(function (contact) {
+    return contact.id === updatedContact.id;
+  });
+
+  if (index !== -1) {
+    state.contacts.splice(index, 1, updatedContact);
+  }
 };
 
 /***/ }),

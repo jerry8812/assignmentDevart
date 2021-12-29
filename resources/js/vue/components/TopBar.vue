@@ -18,6 +18,13 @@ export default {
     openEdit() {
       this.$store.commit('SET_MODAL_TYPE', 'create')
       this.$store.commit('SET_TOGGLE_EDIT', true)
+      this.$store.commit('SET_SELECTED_CONTACT', {
+        id: '',
+        name: '',
+        email: '',
+        phoneNumber: '',
+        physicalAddress: ''
+      })
     }
   }
 }

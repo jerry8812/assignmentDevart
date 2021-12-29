@@ -73,15 +73,16 @@ class ContactsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreContactRequest $request, $id)
     {
+
         $existingContact = Contacts::find( $id );
 
         if ( $existingContact ) {
-            $existingContact->name = $request->contact["name"];
-            $existingContact->email = $request->contact["email"];
-            $existingContact->phoneNumber = $request->contact["phoneNumber"];
-            $existingContact->physicalAddress = $request->contact["physicalAddress"];
+            $existingContact->name = $request["name"];
+            $existingContact->email = $request["email"];
+            $existingContact->phoneNumber = $request["phoneNumber"];
+            $existingContact->physicalAddress = $request["physicalAddress"];
             $existingContact->save();
             return $existingContact;
         };

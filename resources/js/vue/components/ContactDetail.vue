@@ -69,12 +69,6 @@ export default {
   name: "ContactDetail",
   data() {
     return {
-      contact: {
-        name: '',
-        email: '',
-        phoneNumber: '',
-        physicalAddress: ''
-      },
       errors: {}
     }
   },
@@ -85,34 +79,51 @@ export default {
     typeOfModal() {
       return this.$store.getters.typeOfModal
     },
-  },
-  mounted() {
-    if(this.typeOfModal == 'edit') {
-      // console.log(this.$store.getters.selectedContact);
-      // console.log(this.$store.getters.toggleEdit);
-      // this.contact = JSON.parse(JSON.stringify(this.$store.getters.selectedContact));
-      // console.log(this.contact);
+    contact: {
+      get() {
+        return this.$store.getters.selectedContact
+      },
+      set(newContact) {
+        return newContact
+      }
     }
   },
   methods: {
     closeModal() {
       this.$store.commit('SET_TOGGLE_EDIT', false)
+      this.$store.commit('SET_SELECTED_CONTACT', {
+        id: '',
+        name: '',
+        email: '',
+        phoneNumber: '',
+        physicalAddress: ''
+      })
+      this.errors = {}
     },
     submit() {
-      if(this.typeOfModal == 'edit') {
-
-      }else {
-        axios.post('api/contact/store', this.contact)
+      if(this.typeOfModal === 'edit') {
+        axios.put(`api/contact/${this.contact.id}`, this.contact)
         .then(response => {
-          if (response.status == 201){
-            this.$store.commit('NEW_CONTACT', this.contact)
-            this.$store.commit('SET_TOGGLE_EDIT', false)
-            this.contact = {}
+          if(response.status === 200) {
+            this.$store.commit('UPDATE_CONTACT', response.data)
+            this.closeModal() 
           }
         })
         .catch(error => {
           if (error.response.status == 422) {
-            console.log(error.response.data.errors);
+            this.errors = error.response.data.errors
+          }
+        })
+      }else if(this.typeOfModal === 'create'){
+        axios.post('api/contact/store', this.contact)
+        .then(response => {
+          if (response.status == 201){
+            this.$store.commit('NEW_CONTACT', response.data)
+            this.closeModal() 
+          }
+        })
+        .catch(error => {
+          if (error.response.status == 422) {
             this.errors = error.response.data.errors
           }
         })

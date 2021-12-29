@@ -10,4 +10,11 @@ export const SET_TOGGLE_EDIT = (state, payload) => state.toggleEdit = payload
 
 export const SET_MODAL_TYPE = (state, payload) => state.typeOfModal = payload
 
-export const SET_SELECTED_CONTACT = (state, payload) => state.selectedContact = payload
+export const SET_SELECTED_CONTACT = (state, payload) => state.selectedContact = Object.assign({}, payload)
+
+export const UPDATE_CONTACT = (state, updatedContact) => {
+  const index = state.contacts.findIndex(contact=> contact.id === updatedContact.id)
+  if(index !== -1) {
+    state.contacts.splice(index, 1, updatedContact)
+  }
+}
